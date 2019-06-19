@@ -1,0 +1,67 @@
+Customer Table
+
+CREATE SEQUENCE seq_customer
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
+
+create table customer(customer_id number,firstname varchar(50),lastname varchar(50),age number(2),gender varchar(10),dob varchar(10) ,contact_number varchar(10),alt_contact_number varchar(10),email_id varchar(50), password varchar(15),address_line1 varchar(100),address_line2 varchar(100),city varchar(50),state varchar(50),zipcode varchar(10));
+
+alter table customer add primary key(customer_id);
+
+Admin Table
+
+CREATE SEQUENCE seq_admin
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
+
+create table admin(admin_id number,firstname varchar(50),lastname varchar(50),age number(2),gender varchar(10),dob varchar(10) ,contact_number varchar(10),alt_contact_number varchar(10),email_id varchar(50), password varchar(15));
+
+alter table admin add primary key(admin_id);
+
+Medicare Services Table
+
+CREATE SEQUENCE seq_medical
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
+
+create table medicare_services(medicare_services_id number,medicare_service varchar(50),service_description varchar(200),amount number(10));
+
+alter table medicare_services add primary key(medicare_services_id);
+
+Doctor Table
+
+CREATE SEQUENCE seq_doctor
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
+
+create table doctor(doctor_id number,firstname varchar(50),lastname varchar(50),age number(2),gender varchar(10),dob varchar(10) ,contact_number varchar(10),alt_contact_number varchar(10),email_id varchar(50), password varchar(15),address_line1 varchar(100),address_line2 varchar(100),city varchar(50),state varchar(50),zipcode varchar(10),degree varchar(30),speciality varchar(50) ,work_hours varchar(50),hospital_name varchar(50),medicare_service_id references medicare_services(medicare_services_id));
+
+alter table doctor add primary key(doctor_id);
+
+Request Table
+
+CREATE SEQUENCE seq_request
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
+
+create table request(request_id number,work_hours varchar(50),medicare_service_id references medicare_services(medicare_services_id),doctor_id references doctor(doctor_id),status varchar(50) default 'pending',customer_id references customer(customer_id));
+
+Report Table
+
+CREATE SEQUENCE seq_report
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
+
+create table report (report_id number primary key,customer_id references customer(customer_id),doctor_id references doctor(doctor_id),medicare_services_id references medicare_services(medicare_services_id),service_date varchar(10),test_result_date varchar(10),diag1_act number,diag1_normal number,diag2_act number,diag2_normal number,diag3_act number,diag3_normal number);
